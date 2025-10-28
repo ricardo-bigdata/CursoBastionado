@@ -78,8 +78,8 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
      * Teclado: es
    - Configurar rede:
      * Hostname: pve-01, pve-02, pve-03
-     * IP address: 192.168.18.10/11/12 (según plan)
-     * Gateway: 192.168.18.1
+     * IP address: 192.168.14.10/11/12 (según plan)
+     * Gateway: 192.168.14.1
      * DNS: 8.8.8.8
    - Configurar password de root
    - Configurar email de administración
