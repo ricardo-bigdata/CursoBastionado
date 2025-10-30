@@ -79,6 +79,17 @@ UPS01 -> UPS Principal
 ## Cables - orixe-destino
 SW01-TE24 -> SW02-TE01  -> Cable de Switch01 - porto 24 a Switch02 - porto 01
 
+# Rangos de redes 
+- Servidores: 192.168.14.0/24
+- ILO:
+- Máquinas virtuais:
+
+# Credenciais de acceso
+BIOS servidores
+Servidores
+Switches
+
+
 # Plan de traballo
 Descrición do proceso dende o desempaquetado ata ter un clúster Proxmox completamente funcional montado en rack. 
 Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
@@ -111,7 +122,7 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 2. Verificar que non hai danos visibles no transporte
 3. Retirar protecións de embalaxe
 4. Comprobar accesorios incluídos (cables, documentación)
-5. Etiquetar cada servidor (PVE-01, PVE-02, PVE-03)
+5. Etiquetar cada servidor (srvpve01, srvpve02, srvpve-03)
 ```
 
 ### 2.2. Instalación de Componentes
@@ -158,10 +169,10 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
      * Zona horaria: Europe/Madrid
      * Teclado: es
    - Configurar rede:
-     * Hostname: pve-01, pve-02, pve-03
+     * Hostname: srvpve01, srvpve02, srvpve03
      * IP address: 192.168.14.10/11/12 (según plan)
      * Gateway: 192.168.14.1
-     * DNS: 8.8.8.8
+     * DNS: 192.168.10.101????
    - Configurar password de root
    - Configurar email de administración
    - Esperar a que complete instalación
@@ -214,11 +225,11 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 
 ### 5.1. Creación do Clúster
 ```bash
-# En pve-01 (primeiro nodo):
+# En srvpve01 (primeiro nodo):
 pvecm create cluster-proxmox
 
-# En pve-02 e pve-03:
-pvecm add IP_pve-01
+# En srvpve02 e srvpve03:
+pvecm add IP_srvpve01
 ```
 
 ### 5.2. Configuración de Rede para Clúster
