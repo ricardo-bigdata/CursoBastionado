@@ -1,5 +1,6 @@
 # Inventario de hardware
 ## Rack interconexión infraestrutura do centro
+1xRack Aula de reforzo de Ciberseguridade - R23
 - Switch: D-Link DGS-1250-28X/E
 - Latiguiños e transceptores 10GBase-LR:
    - 4 x 10G SFP+ LR Singlemode Transceiver, 10GBase-LR LC Module. 
@@ -7,12 +8,13 @@
 - 1 Patch panel con 11 tomas Cat. 6 postos aula
 - 1 toma Ethernet cat. 8 conectada a Sala Dámaso
 - 2 tomas monomodo conectadas a Sala Dámaso
+
 ## Racks Servidores Proxmox CE Ciberseguridade
-1xRACK REDES R2
-rack 19" de 22 U para os switchs
+1xRack Servidores - R2
+rack 19" de 22 U para os servidores
 medidas 800x1000
-3x regleta de enchufes 24
-patch 1x24
+3x regleta de 24 enchufes
+patch panel 1x24
 
 - Switch:
 - 3 x DELL Optiplex
@@ -24,14 +26,13 @@ patch 1x24
    - Interfaces de rede:
 
 ## Rack Comunicacións CE Ciberseguridade
-
-1xRACK REDES R1
-rack 19" de 42 U para os switchs
+1xRack Redes - R1
+rack 19" de 42 U para os switches
 medidas 800x600
-regleta de enchufes 24
-patch 2x24
+regleta de 24 enchufes
+patch panel 2x24
 
-
+- Switch:
 
 # Nomenclatura
 ## Racks - RKxx
