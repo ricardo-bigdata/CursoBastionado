@@ -1,3 +1,83 @@
+# Inventario de hardware
+## Rack interconexión infraestrutura do centro
+- Switch: D-Link DGS-1250-28X/E
+- Latiguiños e transceptores 10GBase-LR:
+   - 4 x 10G SFP+ LR Singlemode Transceiver, 10GBase-LR LC Module. 
+   - 4 latiguitllos fibra =>  LC to LC 0.5m single mode.
+- 1 Patch panel con 11 tomas Cat. 6 postos aula
+- 1 toma Ethernet cat. 8 conectada a Sala Dámaso
+- 2 tomas monomodo conectadas a Sala Dámaso
+## Racks Servidores Proxmox CE Ciberseguridade
+1xRACK REDES R2
+rack 19" de 22 U para os switchs
+medidas 800x1000
+3x regleta de enchufes 24
+patch 1x24
+
+- Switch:
+- 3 x DELL Optiplex
+   - RAM:
+   - Procesadores:
+   - Discos:
+      - Sistema operativo: 2x           en RAID 1
+      - Sistema distribuído: 
+   - Interfaces de rede:
+
+## Rack Comunicacións CE Ciberseguridade
+
+1xRACK REDES R1
+rack 19" de 42 U para os switchs
+medidas 800x600
+regleta de enchufes 24
+patch 2x24
+
+
+
+# Nomenclatura
+## Racks - RKxx
+RK01 -> Rack de comunicacións (switches)
+RK02 -> Rack de servidores e almacenamento (Proxmox)  
+
+## Regletas enchufes / schukos (Power Distribution Unit) - PDUxx
+PDU01 -> PDU arriba
+PDU02 -> PDU abaixo
+PDU03 -> PDU máis abaixo
+
+Tomas individuais - SKxx
+SK01 -> Schuko esquerda
+SK02 -> Schuko dereita
+SK03 -> Schuko máis á dereita
+
+
+## Switches - SWxx
+SW01 -> Switch arriba
+SW02 -> Switch abaixo
+SW03 -> Switch máis abaixo
+
+## Patch panels - PPxx
+PP01 -> Patch Panel arriba
+PP02 -> Patch Panel abaixo
+PP03 -> Patch Panel máis abaixo
+
+## Tomas Ethernet - TExx
+TE01 -> Toma Ethernet - Punto 01
+TE02 -> Toma Ethernet - Punto 02
+
+## Tomas fibra - TFxx
+TF01 -> Toma Fibra Monomodo - Punto 01
+TF02 -> Toma Fibra Monomodo - Punto 02
+
+## Servidores - srvpvexx
+srvpve01 -> Servidor arriba
+srvpve02 -> Servidor abaixo
+srvpve03 -> Servidor máis abaixo
+
+## SAI
+UPS01 -> UPS Principal
+
+## Cables - orixe-destino
+SW01-TE24 -> SW02-TE01  -> Cable de Switch01 - porto 24 a Switch02 - porto 01
+
 # Plan de traballo
 Descrición do proceso dende o desempaquetado ata ter un clúster Proxmox completamente funcional montado en rack. 
 Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
