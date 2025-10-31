@@ -91,9 +91,9 @@ Descrición do proceso dende o desempaquetado ata ter un clúster Proxmox comple
 
 Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 
-## Fase 1: Planificación e Preparación
+## Fase 1: Planificación e preparación
 
-### 1.1. Verificación de Hardware
+### 1.1. Verificación de hardware
 - [ OK ] Comprobar que os 3 DELL Optiplex son modelos compatibles con Proxmox
 - [ ] Comprobar que dispón de 2 discos SSD para o sistema (usaranse en RAID 1)
 - [ ] Comprobar que dispón de discos mecánicos para o sistema de arquivos distribuído (NON SE MONTA NINGÚN RAID SOBRE ELES)
@@ -102,7 +102,7 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 - [ ] Preparar cables de fibra óptica LC-LC ou SC-SC segundo as tarxetas
 - [ ] Ter a man switches de fibra ou direct-attach cables para interconexión
 
-### 1.2. Recursos Necessarios
+### 1.2. Recursos necesarios
 - [ ] USB >8GB para instalación de Proxmox
 - [ ] ISO de Proxmox VE 8.x última versión
 - [ ] Monitor, teclado e rato temporal
@@ -110,17 +110,16 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 - [ ] Etiquetas para cableado
 - [ ] Documentación de rede (IPs, VLANs, etc.)
 
-## Fase 2: Desempaquetado e Configuración Hardware
+## Fase 2: Desempaquetado e configuración hardware
 
-### 2.1. Desempaquetado e Verificación
-
-# Para cada servidor:
+### 2.1. Desempaquetado e verificación
+Para cada servidor:
 - [ OK ] Desempaquetar nunha superficie limpa e antiestática
 - [ OK ] Verificar que non hai danos visibles no transporte
 - [ OK ] Comprobar accesorios incluídos (cables, documentación)
 - [ OK ] Etiquetar cada servidor (srvpve01, srvpve02, srvpve-03)
 
-### 2.2. Instalación de Compoñentes
+### 2.2. Instalación de compoñentes
 - [ ] Apagar e desenchufar cada servidor
 - [ ] Abrir chasis segundo manual
 - [ ] Instalar tarxetas de fibra en slots PCIe dispoñibles
@@ -128,7 +127,7 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 - [ ] Pechar chasis e asegurar tódolos parafusos
 
 ### 2.3. Configuración BIOS/UEFI
-# Acceder a BIOS (F2 durante arranque)
+Acceder a BIOS (F2 durante arranque)
 1. Configurar modo UEFI (recomendado)
 2. Activar Virtualization Technology (VT-x/VT-d)
 3. Configurar arranque por orde: USB -> SSD/HDD
@@ -137,14 +136,14 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 
 ## Fase 3: Instalación de Proxmox VE
 
-### 3.1. Preparación USB de Instalación
-# En ordenador de traballo:
+### 3.1. Preparación USB de instalación
+En ordenador de traballo:
 1. Descargar Proxmox VE ISO desde proxmox.com
 2. Usar Rufus para crear USB booteable
 3. Verificar que o USB é booteable
 
-### 3.2. Instalación do Sistema
-# Para CADA servidor:
+### 3.2. Instalación do sistema
+Para CADA servidor:
 1. Conectar USB de instalación
 2. Arrancar e premer F11 para Boot Menu
 3. Seleccionar USB boot device
@@ -166,24 +165,26 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
    - Esperar a que complete instalación
    - Retirar USB e reiniciar
 
-### 3.3. Configuración Post-Instalación
-# Acceder vía web: https://IP_SERVIDOR:8006
+### 3.3. Configuración post-instalación
+Acceder vía web: https://IP_SERVIDOR:8006
 
 1. Para cada nodo:
    - Login con root e password
    - Actualizar repositorios:
+```bash
      sed -i 's/^deb/#deb/' /etc/apt/sources.list.d/pve-enterprise.list
      echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-no-subscription.list
-   
+```   
    - Actualizar sistema:
+```bash
      apt update && apt dist-upgrade -y
-   
+```  
    - Reiniciar para aplicar updates
 
 ## Fase 4: Configuración iDRAC
 
-### 4.1. Configuración iDRAC Básica
-# Os servidores DELL Optiplex teñen iDRAC:
+### 4.1. Configuración iDRAC básica
+Os servidores DELL Optiplex teñen iDRAC:
 1. Arrancar e premer F2 durante boot
 2. Navegar a iDRAC Settings
 3. Configurar:
@@ -194,61 +195,62 @@ Executar cada fase de forma secuencial e verificar cada paso antes de continuar.
 4. Gardar e saír
 
 ### 4.2. Acceso iDRAC
-```bash
-# Desde navegador web:
+Dende navegador web:
 1. Conectar a https://IP_iDRAC
 2. Login con credenciais configuradas
 3. Verificar:
    - Estado de hardware
    - Temperaturas
    - Logs de sistema
+
+## Fase 5: Configuración do clúster Proxmox
+
+### 5.1. Creación do clúster
+En srvpve01 (primeiro nodo):
+```bash
+pvecm create cluster-proxmox
+```
+En srvpve02 e srvpve03:
+```bash
+pvecm add IP_srvpve01
 ```
 
-## Fase 5: Configuración do Clúster Proxmox
-
-### 5.1. Creación do Clúster
-# En srvpve01 (primeiro nodo):
-pvecm create cluster-proxmox
-
-# En srvpve02 e srvpve03:
-pvecm add IP_srvpve01
-
-### 5.2. Configuración de Rede para Clúster
-# Configurar corosync para tráfico de clúster:
-1. En cada nodo, editar /etc/pve/corosync.conf
+### 5.2. Configuración de rede para clúster
+Configurar `corosync` para tráfico de clúster:
+1. En cada nodo, editar `/etc/pve/corosync.conf`
 2. Verificar que todos os nodos están listados
 3. Configurar rede dedicada se é posible para tráfico de clúster
 
-### 5.3. Configuración de Almacenamento Compartido
+### 5.3. Configuración de almacenamento compartido
 
 # Segundo a infraestrutura dispoñible:
-1. Configurar NFS, Ceph ou outro almacenamento compartido
+1. Configurar NFS, **Ceph** ou outro almacenamento compartido
 2. Engadir almacenamento no clúster
-3. Verificar acceso desde todos os nodos
+3. Verificar acceso desde tódolos nodos
 
-## Fase 6: Montaxe en Rack
+## Fase 6: Montaxe en rack
 
-### 6.1. Preparación do Rack
+### 6.1. Preparación do rack
 1. Verificar que o rack está nivelado e seguro
 2. Planificar posición de cada servidor (U)
 3. Preparar raíles segundo instrucións DELL
 4. Verificar que hai espazo para cableado traseiro
 
-### 6.2. Instalación dos Raíles
-# Para cada servidor:
+### 6.2. Instalación dos raíles
+Para cada servidor:
 1. Instalar pezas laterais nos servidores
 2. Montar raíles externos no rack
 3. Verificar que os raíles están nivelados
 4. Comprobar mecanismo de bloqueo/desbloqueo
 
-### 6.3. Montaxe dos Servidores
+### 6.3. Montaxe dos servidores
 1. Con axuda, levantar cada servidor á altura do rack
 2. Enganchar parte traseira dos raíles primeiro
 3. Empuxar suavemente até que encaixe na parte dianteira
 4. Asegurar con parafusos de seguridade se é necesario
 5. Verificar que o servidor despraza suavemente
 
-### 6.4. Cableado Organizado
+### 6.4. Organización do cableado
 1. Cableado de rede:
    - Conexión management (1Gbps)
    - Conexións de fibra para cluster/comunicación
@@ -264,25 +266,27 @@ pvecm add IP_srvpve01
    - Tipo de conexión
    - VLAN se aplicable
 
-## Fase 7: Verificación Final
+## Fase 7: Verificación final
 
-### 7.1. Comprobación de Hardware
-1. Encender todos os servidores
+### 7.1. Comprobación de hardware
+1. Encender tódolos servidores
 2. Verificar que arrancan correctamente
 3. Comprobar que as tarxetas de fibra son detectadas
 4. Verificar conectividade de rede
 
-### 7.2. Comprobación do Clúster
-# Desde pve-01:
+### 7.2. Comprobación do clúster
+Dende pve-01:
+```bash
 pvecm status
 pvecm nodes
+``
 
-# Verificar en web interface:
-- Todos os nodos aparecen no clúster
+Verificar en interface web:
+- Tódolos nodos aparecen no clúster
 - Estado "online" para todos
 - Almacenamento compartido accesible
 
-### 7.3. Test de Migración
+### 7.3. Test de migración
 1. Crear unha VM de proba nun nodo
 2. Migrar en vivo a outro nodo
 3. Verificar que a migración foi exitosa
@@ -290,14 +294,14 @@ pvecm nodes
 
 ## Fase 8: Documentación
 
-### 8.1. Crear Documentación do Clúster
+### 8.1. Crear documentación do clúster
 1. Listar IPs de cada servidor e iDRAC
 2. Documentar configuración de rede
 3. Gardar passwords en xestor seguro
 4. Crear diagrama de rede
 5. Documentar procedementos de backup
 
-## Notas Importantes:
+## Outros pasos:
 
 1. **Seguridade**: Cambiar passwords por defecto inmediatamente
 2. **Backup**: Configurar backup da configuración de Proxmox
